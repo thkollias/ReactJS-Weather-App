@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const useForecast = () => {
+const useData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setDate] = useState(null);
@@ -14,4 +14,4 @@ const useForecast = () => {
   );
 };
 
-export default useForecast;
+export {useData};
