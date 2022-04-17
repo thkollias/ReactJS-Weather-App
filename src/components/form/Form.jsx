@@ -1,8 +1,34 @@
+import { useState } from "react";
+
 const Form = () => {
+  const [userInput, setUserInput] = useState("");
+
+  const changeHandler = (event) => {
+    setUserInput(event.target.value);
+  }
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    console.log(`the input is: ${userInput}`);
+  }
+
+  const resetHandler = () => {
+    setUserInput("");
+  }
+
   return (
-    <form>
+    <form onSubmit={submitHandler} onReset={resetHandler}>
       <label htmlFor="user-input">Search city by name!</label>
-      <input id="user-input" type="text" placeholder="Enter city name" />
+      <br></br>
+      <input 
+        id="user-input"
+        type="text"
+        placeholder="Enter city name here.."
+        maxLength="85"
+        value={userInput}
+        onChange={changeHandler}
+        required
+        autoFocus />
       <button type="submit">Submit</button>
       <button type="reset">Reset</button>
     </form>
