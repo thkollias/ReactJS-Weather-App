@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Form = () => {
+const Form = ({pageCallback}) => {
   const [userInput, setUserInput] = useState("");
 
   const changeHandler = (event) => {
@@ -9,7 +9,8 @@ const Form = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(`the input is: ${userInput}`);
+    console.log(`From: Form - ${userInput}`);
+    pageCallback(userInput);
   }
 
   const resetHandler = () => {
