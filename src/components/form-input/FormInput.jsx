@@ -1,6 +1,7 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
 
-const Form = ({pageCallback}) => {
+const FormInput = ({getValueCallback}) => {
   const [userInput, setUserInput] = useState("");
 
   const changeHandler = (event) => {
@@ -9,8 +10,8 @@ const Form = ({pageCallback}) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(`From: Form - ${userInput}`);
-    pageCallback(userInput);
+    // console.log(`From: Form - ${userInput}`);
+    getValueCallback(userInput);
   }
 
   const resetHandler = () => {
@@ -19,21 +20,26 @@ const Form = ({pageCallback}) => {
 
   return (
     <form onSubmit={submitHandler} onReset={resetHandler}>
-      <label htmlFor="user-input">Search city by name!</label>
+      <label htmlFor="user-input">Search location!</label>
       <br></br>
       <input 
         id="user-input"
         type="text"
-        placeholder="Enter city name here.."
+        placeholder="Enter: Location, State (US), Country"
         maxLength="85"
         value={userInput}
         onChange={changeHandler}
         required
         autoFocus />
+      <br></br>
       <button type="submit">Submit</button>
       <button type="reset">Reset</button>
     </form>
   );
 }
 
-export default Form;
+FormInput.propTypes = {
+  getValueCallback: PropTypes.func.isRequired
+}
+
+export default FormInput;

@@ -1,5 +1,5 @@
 import "./App.css";
-import MainPage from "./routes/mainpage";
+import MainPage from "./routes/main-page";
 
 const App = () => {
   return (
