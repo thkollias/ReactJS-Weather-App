@@ -3,10 +3,6 @@ import temperature_img from "../../assets/icons/temperature/temperature_48.png";
 import humidity_img from "../../assets/icons/humidity/humidity_48.png";
 
 const Display = ({props}) => { 
-  // for (const prop in props) {
-  //   console.log(`${prop} : ${props[prop]}`);
-  // }
-
   const weather_icon = `https://openweathermap.org/img/wn/${props.icon}@2x.png`;
   return (
     <div>
@@ -20,7 +16,8 @@ const Display = ({props}) => {
           <tbody>
             <tr>
               <td>
-                <img src={weather_icon} />
+                <img src={weather_icon} 
+                  alt={`weather: ${props.shortDescription}`} />
               </td>
               <td>
                 {`${props.shortDescription}, ${props.longDescription}.`}
@@ -28,12 +25,12 @@ const Display = ({props}) => {
             </tr>
             <tr>
               <td>
-                <img src={temperature_img} />
-                {`${props.temperature} C`}
+                {`${props.temperature}`}
+                <img src={temperature_img} alt="temperature symbol" />
               </td>
               <td>
-                <img src={humidity_img} />
-                {`${props.humidity} %`}
+                {`${props.humidity}`}
+                <img src={humidity_img} alt="humidity symbol" />
               </td>
             </tr>
           </tbody>

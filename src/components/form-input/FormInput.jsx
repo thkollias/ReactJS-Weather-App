@@ -10,16 +10,11 @@ const FormInput = ({getValueCallback}) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    // console.log(`From: Form - ${userInput}`);
     getValueCallback(userInput);
   }
 
-  const resetHandler = () => {
-    setUserInput("");
-  }
-
   return (
-    <form onSubmit={submitHandler} onReset={resetHandler}>
+    <form onSubmit={submitHandler} >
       <label htmlFor="user-input">Search location!</label>
       <br></br>
       <input 
@@ -33,7 +28,6 @@ const FormInput = ({getValueCallback}) => {
         autoFocus />
       <br></br>
       <button type="submit">Submit</button>
-      <button type="reset">Reset</button>
     </form>
   );
 }
