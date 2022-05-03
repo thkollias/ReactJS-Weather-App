@@ -34,8 +34,8 @@ const forecastDataUrl = (latitude, longitude) => {
       params: {
         lat: latitude,
         lon: longitude,
-        // lang: locale,
-        // units: temperatureUnitsSi,
+        lang: "en",
+        units: "metric",
         // mode: format,
         appid: API_KEY,
       }
@@ -46,10 +46,10 @@ const forecastDataUrl = (latitude, longitude) => {
 /** Performs Error Handling on 1st promise and returns its data. */
 const getSameNameCities = async (cityName) => {
   try {
-    const response = await locationUrl(cityName);
-    console.log(response.data);
-    console.log(`${response.status} - ${response.statusText}`);
-    return response.data;
+    const coordinatesData = await locationUrl(cityName);
+    console.log(coordinatesData.data);
+    console.log(`${coordinatesData.status} - ${coordinatesData.statusText}`);
+    return coordinatesData.data;
   }
   catch (error) {
     if (error.response) { // no 2xx status code
@@ -74,6 +74,8 @@ const getSameNameCities = async (cityName) => {
 const getForecastData = async (latitude, longitude) => {
   try {
     const forecastData = await forecastDataUrl(latitude, longitude);
+    console.log(forecastData.data);
+    console.log(`${forecastData.status} - ${forecastData.statusText}`);
     return forecastData.data;
   } 
   catch (error) {
@@ -114,13 +116,21 @@ const useFetchedData = () => {
     const response2 = await getForecastData(response1[0].lat, response1[0].lon);
 
     const {name, state, country} = response1[0];
-    const {main, description, icon} = response2["weather"][0];
-    const {humidity} = response2["main"];
+    const {main: {temp, humidity}, ["weather"]: [{main, description, icon}]} = response2;
+
     const displayObj = {
-      name, state, country, main, description, icon, humidity
-    }
+      name: name, 
+      state: state, 
+      country: country,
+      temperature: temp, 
+      humidity: humidity, 
+      shortDescription: main, 
+      longDescription: description, 
+      icon: icon,
+    };
 
     setData(displayObj);
+    setLoading(false);
   }
 
   return (
