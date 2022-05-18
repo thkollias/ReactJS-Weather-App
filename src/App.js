@@ -1,10 +1,13 @@
-import "./App.css";
+import appStyle from "./App.module.css";
 import MainPage from "./routes/main-page";
+import {ThemeContextProvider} from "./contexts/theme/ThemeContextProvider";
 
 const App = () => {
   return (
-    <div className="App">
-      <MainPage />
+    <div className={appStyle.App}>
+      <ThemeContextProvider>
+        <MainPage />
+      </ThemeContextProvider>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import axios from 'axios';
 import API_KEY from '../ApiKey';
 
@@ -43,80 +43,88 @@ const forecastDataUrl = (latitude, longitude) => {
   );
 };
 
-/** Performs Error Handling on 1st promise and returns its data. */
-const getSameNameCities = async (cityName) => {
-  try {
-    const coordinatesData = await locationUrl(cityName);
-    console.log(coordinatesData.data);
-    console.log(`${coordinatesData.status} - ${coordinatesData.statusText}`);
-    return coordinatesData.data;
-  }
-  catch (error) {
-    if (error.response) { // no 2xx status code
-      console.log(error.response.data);
-      console.log(`${error.response.status} - ${error.response.statusText}`);
-      console.log(error.response.headers);
-    }
-    else if (error.request) { // 2xx but no response received
-      console.log(error.request);
-    } 
-    else {
-      console.log('Unknown Error.', error.message);
-    }
-    console.log(error.config);
-  }
-  finally {
-    console.log("getSameNameCities() request sent.");
-  }
-}
-
-/** Performs Error Handling on 2nd promise and returns its data. */
-const getForecastData = async (latitude, longitude) => {
-  try {
-    const forecastData = await forecastDataUrl(latitude, longitude);
-    console.log(forecastData.data);
-    console.log(`${forecastData.status} - ${forecastData.statusText}`);
-    return forecastData.data;
-  } 
-  catch (error) {
-    if (error.response) { // no 2xx status code
-      console.log(error.response.data);
-      console.log(`${error.response.status} - ${error.response.statusText}`);
-      console.log(error.response.headers);
-    }
-    else if (error.request) { // 2xx but no response received
-      console.log(error.request);
-    } 
-    else {
-      console.log('Unknown Error.', error.message);
-    }
-    console.log(error.config);
-  }
-  finally {
-    console.log("getForecastData() request sent.");
-  }
-}
-
 const useFetchedData = () => {
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
   const [data, setData] = useState(null);
+
+  /** Performs Error Handling on 1st promise and returns its data. */
+  const getSameNameCities = async (cityName) => {
+    try {
+      const coordinatesData = await locationUrl(cityName);
+      if (coordinatesData.data.length === 0) {
+        setError("Location does not exist.");
+      }
+      console.log(coordinatesData.data);
+      console.log(`${coordinatesData.status} - ${coordinatesData.statusText}`);
+      return coordinatesData.data;
+    }
+    catch (error) {
+      if (error.response) { // axios - no 2xx status code
+        setError("Unsuccessful request.");
+        console.log(error.response.data);
+        console.log(`${error.response.status} - ${error.response.statusText}`);
+      }
+      else if (error.request) { // axios - 2xx but no response received
+        setError("No response received.");
+        console.log(error.request);
+        console.log(`${error.response.status} - ${error.response.statusText}`);
+      } 
+      else {
+        setError("Unknown Error");
+        console.log("Unknown Error.", error.message);
+      }
+      console.log(error.config);
+    }
+    finally {
+      setLoading(false);
+      console.log("getSameNameCities() request sent.");
+    }
+  }
+
+  /** Performs Error Handling on 2nd promise and returns its data. */
+  const getForecastData = async (latitude, longitude) => {
+    try {
+      const forecastData = await forecastDataUrl(latitude, longitude);
+      if (forecastData.data.length === 0) {
+        setError("Something went wrong.");
+      }
+      console.log(forecastData.data);
+      console.log(`${forecastData.status} - ${forecastData.statusText}`);
+      return forecastData.data;
+    } 
+    catch (error) {
+      if (error.response) { // axios - no 2xx status code
+        setError("Unsuccessful request.");
+        console.log(error.response.data);
+        console.log(`${error.response.status} - ${error.response.statusText}`);
+        // console.log(error.response.headers);
+      }
+      else if (error.request) { // axios - 2xx but no response received
+        setError("No response received.");
+        console.log(error.request);
+      } 
+      else {
+        setError("Unknown Error");
+        console.log('Unknown Error.', error.message);
+      }
+      console.log(error.config);
+    }
+    finally {
+      setLoading(false);
+      console.log("getForecastData() request sent.");
+    }
+  }
 
   const submitRequest = async (cityName) => {
     setLoading(true);
     setError(false);
 
     const response1 = await getSameNameCities(cityName);
-    if (!response1 || response1.length < 1) {
-      setError("Location doesn't exist.");
-      setLoading(false);
-      return;
-    }
-
     const response2 = await getForecastData(response1[0].lat, response1[0].lon);
 
     const {name, state, country} = response1[0];
-    const {main: {temp, humidity}, ["weather"]: [{main, description, icon}]} = response2;
+    const {main: {temp, humidity}, weather: [{main, description, icon}]} = response2;
 
     const displayObj = {
       name: name, 

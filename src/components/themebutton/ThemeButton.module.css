@@ -1,0 +1,16 @@
+.light {
+  border: 2px solid #f2f7f7;
+  color: #f2f7f7;
+  background-color: #3e4242;
+}
+
+.dark {
+  border: 2px solid #3e4242;
+  color: #3e4242;
+  background-color: #f2f7f7;
+}
+
+.button {
+  border-radius: 7px;
+  float: right;
+}

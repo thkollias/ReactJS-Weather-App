@@ -1,0 +1,14 @@
+body {
+  margin: 0px;
+  padding: 4px;
+  background-color: darkslategrey;
+}
+
+.App {
+  margin: 0px;
+  padding: 5px;
+  height: 100vh;
+  position: relative;
+  border: 1px solid black;
+  background-color: blueviolet;
+}

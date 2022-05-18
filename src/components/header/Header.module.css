@@ -1,0 +1,22 @@
+.Header {
+  text-align: center;
+  margin: 10px;
+  border: 1px solid  black;
+  border-radius: 7px;
+  padding: 10px;
+  height: 10%;
+  font-size: 150%;
+  display: flex;
+  overflow: hidden;
+}
+
+.Text {
+  margin: auto;
+  text-align: center;
+}
+
+.Button {
+  height: 10px;
+  margin: auto;
+  position: relative;
+}

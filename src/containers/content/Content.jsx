@@ -1,8 +1,9 @@
-import useFetchedData from "../../hooks/useFetchedData"
+import contentStyles from "./Content.module.css";
+import useFetchedData from "../../hooks/useFetchedData";
 import { FormInput } from "../../components/form-input";
-import { Error } from "../../components/error"
-import { Loading } from "../../components/loading"
-import { Display } from "../../components/display"
+import { Error } from "../../components/error";
+import { Loading } from "../../components/loading";
+import { Display } from "../../components/display";
 
 const Content = () => {
   const {isLoading, isError, data, submitRequest,} = useFetchedData();
@@ -13,7 +14,7 @@ const Content = () => {
   }
 
   return (
-    <div>
+    <div className={contentStyles.Content}>
       {!isLoading && <FormInput getValueCallback={userInputCallback} />}
       {isError && <Error message={isError} />}
       {isLoading && <Loading />}
